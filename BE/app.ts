@@ -1,6 +1,5 @@
-import { Request, Response } from 'express';
-const express = require('express');
-import greetingsRouter from './routes/greetings'
+import express from 'express';
+import greetingsRouter from './routes/greetings';
 
 // init express
 const app = express();
