@@ -1,0 +1,21 @@
+name: FrontEnd CD
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'dev'
+    paths:
+      - 'fe/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: deploy
+        run: cd fe
