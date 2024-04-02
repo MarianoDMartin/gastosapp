@@ -8,8 +8,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write .",
     "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "start": "nodemon app.ts",
     "test": "jest --testRegex='\\.test.ts$'"
   },
   "keywords": [],
@@ -34,7 +33,9 @@
   },
   "dependencies": {
     "@types/sequelize": "^4.28.20",
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
+    "joi": "^17.12.2",
     "mssql": "^10.0.2",
     "sequelize": "^6.37.2",
     "tedious": "^18.1.0",
