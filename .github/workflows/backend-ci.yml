@@ -15,17 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Go to be folder
-        run: cd BE
-
       - name: Install dependencies
-        run: npm i
+        run: cd BE && npm i
       
       - name: Build project
-        run: npm run build
+        run: cd BE && npm run build
 
       - name: Run ESLint and Prettier
-        run: npm run lint
+        run: cd BE && npm run lint
 
       - name: Run tests
-        run: npm run test
+        run: cd BE && npm run test
