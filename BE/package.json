@@ -10,7 +10,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "jest"
+    "test": "jest --testRegex='\\.test.ts$'"
   },
   "keywords": [],
   "author": "Mariano Martin",
