@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import helloHandler from './greetings';
 
-describe('Hello Handler', () => {
-  it('debería devolver "Hello World!" en la respuesta', async () => {
+describe('Hello Handler should', () => {
+  it('return "Hello World!"', async () => {
     // config
     const req = {} as unknown as Request;
     const res = {

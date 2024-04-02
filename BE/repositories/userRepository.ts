@@ -1,8 +1,18 @@
-import db from '../db';
 import User from '../models/User';
+import { CreateUserRequest } from '../types/api';
 
-// Obtener todos los usuarios
 export async function getUsers() {
-  await db.sequelize.authenticate();
   return await User.findAll();
+}
+
+export async function createUser(createUserRequest: CreateUserRequest) {
+  return await User.create(createUserRequest);
+}
+
+export async function getUserByEmail(email: string) {
+  return await User.findOne({
+    where: {
+      email,
+    },
+  });
 }

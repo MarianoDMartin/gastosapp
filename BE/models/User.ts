@@ -2,12 +2,11 @@ import { DataTypes, Model } from 'sequelize';
 import db from '../db';
 
 interface UserAttributes {
-  id: number;
+  id?: number;
   email: string;
   password: string;
   name: string;
   lastname: string;
-  birthdate: Date;
   country: string;
 }
 
@@ -17,7 +16,6 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public password!: string;
   public name!: string;
   public lastname!: string;
-  public birthdate!: Date;
   public country!: string;
 }
 
@@ -43,10 +41,6 @@ User.init(
     },
     lastname: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    birthdate: {
-      type: DataTypes.DATE,
       allowNull: false,
     },
     country: {
