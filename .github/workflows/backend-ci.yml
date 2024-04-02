@@ -2,10 +2,10 @@ name: Backend CI
 
 on:
   pull_request:
+    types:
+      - opened
     branches:
-      - dev
-    paths:
-      - 'be/**'
+      - 'dev'
 
 jobs:
   build:
