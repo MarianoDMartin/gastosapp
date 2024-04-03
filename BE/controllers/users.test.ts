@@ -10,11 +10,13 @@ const newUser = {
   id: 1,
   email: 'test@example.com',
   name: 'Test User',
+  password: 'password',
 };
 
 const req = {
   body: {
     email: 'test@example.com',
+    password: 'password',
     name: 'Test User',
   },
 } as Request;
@@ -24,7 +26,7 @@ const res = {
   send: jest.fn(),
 } as unknown as Response;
 
-describe('User create function should', () => {
+describe('User', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -34,38 +36,71 @@ describe('User create function should', () => {
     (userRepository.createUser as jest.Mock).mockResolvedValue(newUser);
   });
 
-  it('create a new user', async () => {
-    await usersController.create(req, res);
+  describe('create function should', () => {
+    it('create a new user', async () => {
+      await usersController.create(req, res);
 
-    expect(userRepository.createUser).toHaveBeenCalledWith({
-      email: 'test@example.com',
-      name: 'Test User',
+      expect(userRepository.createUser).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'password',
+      });
+
+      expect(res.json).toHaveBeenCalledWith(newUser);
     });
 
-    expect(res.json).toHaveBeenCalledWith(newUser);
-  });
+    it('return error if email exists', async () => {
+      (userRepository.getUserByEmail as jest.Mock).mockResolvedValue(newUser);
 
-  it('return error if email exists', async () => {
-    (userRepository.getUserByEmail as jest.Mock).mockResolvedValue(newUser);
+      await usersController.create(req, res);
 
-    await usersController.create(req, res);
+      expect(userRepository.createUser).not.toHaveBeenCalled();
 
-    expect(userRepository.createUser).not.toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'the email already exists',
+      });
+    });
 
-    expect(res.status).toHaveBeenCalledWith(409);
-    expect(res.json).toHaveBeenCalledWith({
-      message: 'the email already exists',
+    it('return error if internal server error', async () => {
+      (userRepository.getUserByEmail as jest.Mock).mockRejectedValue('error');
+
+      await usersController.create(req, res);
+
+      expect(userRepository.createUser).not.toHaveBeenCalled();
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.send).toHaveBeenCalledWith('Internal Server Error');
     });
   });
 
-  it('return error if internal server error', async () => {
-    (userRepository.getUserByEmail as jest.Mock).mockRejectedValue('error');
+  describe('signin function should', () => {
+    it('signin succesfully', async () => {
+      (userRepository.getUserByEmail as jest.Mock).mockResolvedValue(newUser);
+      await usersController.signin(req, res);
 
-    await usersController.create(req, res);
+      expect(res.json).toHaveBeenCalledWith(newUser);
+    });
 
-    expect(userRepository.createUser).not.toHaveBeenCalled();
+    it('return error if email does not exist', async () => {
+      await usersController.signin(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith('Internal Server Error');
+      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'incorrect email or password',
+      });
+    });
+
+    it('return error if email password is incorrect', async () => {
+      (userRepository.getUserByEmail as jest.Mock).mockResolvedValue(newUser);
+      req.body.password = 'wrongpass';
+
+      await usersController.signin(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'incorrect email or password',
+      });
+    });
   });
 });
