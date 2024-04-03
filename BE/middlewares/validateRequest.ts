@@ -9,7 +9,7 @@ const validateRequest =
     } catch (error) {
       const validationError = error as ValidationError;
       return res.status(400).json({
-        error: validationError.details.map((detail) => detail.message),
+        message: validationError.details[0].message,
       });
     }
     next();
