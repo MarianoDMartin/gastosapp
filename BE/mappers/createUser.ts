@@ -1,7 +1,7 @@
 import User from '../models/User';
-import { CreateUserResponse } from '../types/api';
+import { UserResponse } from '../types/api';
 
-export function mapUserToCreateUserResponse(user: User): CreateUserResponse {
+export function mapUserToUserResponse(user: User): UserResponse {
   return {
     id: user.id,
     email: user.email,
