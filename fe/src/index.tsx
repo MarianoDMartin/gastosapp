@@ -6,6 +6,7 @@ import App from './App';
 import theme from './theme';
 
 const rootElement = document.getElementById('root');
+// eslint-disable-next-line
 const root = ReactDOM.createRoot(rootElement!);
 
 root.render(
