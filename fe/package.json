@@ -17,6 +17,7 @@
     "axios": "^1.6.8",
     "react": "latest",
     "react-dom": "latest",
+    "react-router-dom": "6.1",
     "react-scripts": "latest",
     "typescript": "latest",
     "web-vitals": "^2.1.4"
