@@ -18,7 +18,6 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import { Navigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
