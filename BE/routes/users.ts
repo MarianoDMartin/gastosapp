@@ -14,7 +14,7 @@ router.post(
   usersController.create,
 );
 
-router.get(
+router.post(
   '/signin',
   validateRequest(signinSchema),
   connectDb(),

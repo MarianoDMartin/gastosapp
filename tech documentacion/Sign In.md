@@ -3,7 +3,7 @@
 ## Format
 
 - **URL:** {baseUrl}/users/signin
-- **Method:** GET
+- **Method:** POST
 - **Body:** (all the properties are required)
     ```json
     {

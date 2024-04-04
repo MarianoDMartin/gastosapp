@@ -23,11 +23,12 @@ const defaultTheme = createTheme();
 
 export default function Signin() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState('');
+  const [logged, setLogged] = useState(false);
 
   const handleDialogClose = () => {
     setDialogOpen(false);
-    setErrorMessage('');
+    setMessage('');
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -36,26 +37,22 @@ export default function Signin() {
     const request = {
       email: data.get('email'),
       password: data.get('password'),
-      name: data.get('firstName'),
-      lastname: data.get('lastName'),
-      country: data.get('country'),
     };
     axios
-      .post('http://localhost:4000/users', request)
+      .post('http://localhost:4000/users/signin', request)
       .then((response) => {
-        console.log(response);
         if (response.status != 200) {
-          setErrorMessage(
-            response.data?.message || 'internal error, try again',
-          );
-          setDialogOpen(true);
+          setMessage(response.data?.message || 'internal error, try again');
+        } else {
+          setMessage('User logged!!!');
+          setLogged(true);
         }
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage(error.response.data.message);
-        setDialogOpen(true);
+        setMessage(error.response.data.message);
       });
+    setDialogOpen(true);
   };
 
   return (
@@ -123,12 +120,17 @@ export default function Signin() {
           </Box>
         </Box>
         <Dialog open={dialogOpen} onClose={handleDialogClose}>
-          <DialogTitle>Error</DialogTitle>
+          <DialogTitle>Message</DialogTitle>
           <DialogContent>
-            <p>{errorMessage}</p>
+            <p>{message}</p>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleDialogClose}>Close</Button>
+            {logged && (
+              <Link href="/welcome" variant="body2">
+                GO TO THE APP
+              </Link>
+            )}
+            {!logged && <Button onClick={handleDialogClose}>Close</Button>}
           </DialogActions>
         </Dialog>
       </Container>
